@@ -34,7 +34,7 @@ def clicked():
 
 sub_state = IntVar()
 sub_state.set(1) #set check state
-sub = Checkbutton(window, text='Yes! Subtitles', var=sub_state)
+sub = Checkbutton(window, text='Subtitles', var=sub_state)
 sub.grid(column=0, row=3, sticky=W, padx=8, pady=5)
 
 

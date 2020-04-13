@@ -20,7 +20,7 @@ def my_hook(d):
 
 ydl_opts = {
     'format': 'bestaudio/best',
-    'outtmpl': '%(title)s',
+    'outtmpl': '%(title)s'+".mp3",
     'postprocessors': [{
         'key': 'FFmpegExtractAudio',
         'preferredcodec': 'mp3',
@@ -30,4 +30,4 @@ ydl_opts = {
     'progress_hooks': [my_hook],
 }
 with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-    ydl.download(['https://www.youtube.com/watch?v=bVveKasFPa8'])
+    ydl.download(['https://www.youtube.com/watch?v=PxZ_rixvzZU'])

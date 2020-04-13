@@ -27,7 +27,7 @@ def download(dirname,link,subtitles):
     ydl_opts = {
         'format': 'bestvideo+bestaudio/best',
         'outtmpl': dirname+'/%(title)s',
-        'writesubtitles': subtitles    ,
+        'writesubtitles': subtitles,
         'logger': MyLogger(),
         'progress_hooks': [my_hook],
     }
