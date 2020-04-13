@@ -23,11 +23,11 @@ def my_hook(d):
         print('Done downloading, now converting ...')
 
 
-def download(dirname,link):
+def download(dirname,link,subtitles):
     ydl_opts = {
         'format': 'bestvideo+bestaudio/best',
         'outtmpl': dirname+'/%(title)s',
-        'writesubtitles': True,
+        'writesubtitles': subtitles    ,
         'logger': MyLogger(),
         'progress_hooks': [my_hook],
     }

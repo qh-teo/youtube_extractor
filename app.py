@@ -21,13 +21,25 @@ url_entry.grid(row=1, column=0, sticky=E)
 def clicked():
     if url_entry.get() == "":
         messagebox.showerror("Error", "No link was given. Please input a link for video to be extracted :)")
+
+
     else:
+        if sub_state.get() == 1:
+            subtitles=True
+        else:
+            subtitles=False
         dirname = filedialog.askdirectory(initialdir='/home/')
-        download(dirname, url_entry.get())
+        download(dirname, url_entry.get(),subtitles)
+
+
+sub_state = IntVar()
+sub_state.set(1) #set check state
+sub = Checkbutton(window, text='Yes! Subtitles', var=sub_state)
+sub.grid(column=0, row=3, sticky=W, padx=8, pady=5)
 
 
 btn = Button(window, text='Download', command=clicked)
-btn.grid(column=0,row=3, sticky = W, padx=8, pady=5)
+btn.grid(column=0,row=4, sticky=W, padx=8)
 
 
 
