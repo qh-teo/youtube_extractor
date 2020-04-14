@@ -32,9 +32,22 @@ def clicked():
             else:
                 subtitles = False
             downloadMP4(dirname, url_entry.get(), subtitles)
+            downloadmore()
         elif video_music_selector.get() == "MP3":  #extract MP3
             downloadMP3(dirname, url_entry.get())
+            downloadmore()
 
+def entry_checker():
+    if url_entry.get() == "":
+        messagebox.showerror("Error", "No link was given. Please input a link for video to be extracted :)")
+    elif video_music_selector.get() == "Select file format":
+        messagebox.showerror("Error", "Please select which file format if you like to have your file saved as :)")
+
+def downloadmore():
+    if messagebox.askyesno('Download Completed', 'Would you like to download another video?'):
+        url_entry.delete()
+    else:
+        window.destroy()
 #combobox codes
 video_music_selector = Combobox(window)
 video_music_selector['values'] = ("Select file format", "MP4", "MP3")
