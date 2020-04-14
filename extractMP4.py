@@ -23,7 +23,7 @@ def my_hook(d):
         print('Done downloading, now converting ...')
 
 
-def download(dirname,link,subtitles):
+def downloadMP4(dirname,link,subtitles):
     ydl_opts = {
         'format': 'bestvideo+bestaudio/best',
         'outtmpl': dirname+'/%(title)s',

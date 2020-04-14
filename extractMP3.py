@@ -18,16 +18,17 @@ def my_hook(d):
         print('Done downloading, now converting ...')
 
 
-ydl_opts = {
-    'format': 'bestaudio/best',
-    'outtmpl': '%(title)s'+".mp3",
-    'postprocessors': [{
-        'key': 'FFmpegExtractAudio',
-        'preferredcodec': 'mp3',
-        'preferredquality': '192',
-    }],
-    'logger': MyLogger(),
-    'progress_hooks': [my_hook],
-}
-with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-    ydl.download(['https://www.youtube.com/watch?v=PxZ_rixvzZU'])
+def downloadMP3(dirname,link,):
+    ydl_opts = {
+        'format': 'bestaudio/best',
+        'outtmpl': dirname+'/%(title)s'+".mp3",
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '192',
+        }],
+        'logger': MyLogger(),
+        'progress_hooks': [my_hook],
+    }
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([link])
