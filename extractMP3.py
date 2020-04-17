@@ -18,7 +18,7 @@ def my_hook(d):
         print('Done downloading, now converting ...')
 
 
-def downloadMP3(dirname,link,):
+def download_mp3(dirname,link,):
     ydl_opts = {
         'format': 'bestaudio/best',
         'outtmpl': dirname+'/%(title)s'+".mp3",

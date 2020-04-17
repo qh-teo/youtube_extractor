@@ -14,16 +14,13 @@ class MyLogger(object):
 
 
 def my_hook(d):
-    dl_prog = '0%'
-
-    # if dl_prog != d['_percent_str']:
-    #     dl_prog = d['_percent_str']
-    #     print("Download progress:" + dl_prog)
     if d['status'] == 'finished':
         print('Done downloading, now converting ...')
+        # progress.stop()
+        # app.finished()
 
 
-def downloadMP4(dirname,link,subtitles):
+def download_mp4(dirname,link,subtitles):
     ydl_opts = {
         'format': 'bestvideo+bestaudio/best',
         'outtmpl': dirname+'/%(title)s',
@@ -34,8 +31,3 @@ def downloadMP4(dirname,link,subtitles):
 
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([link])
-
-# link = input("Input link: ")
-# title =  input("Input name of video file: ")
-# download(link)
-# https://www.youtube.com/watch?v=MpYy6wwqxoo

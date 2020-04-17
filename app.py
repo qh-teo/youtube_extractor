@@ -1,69 +1,80 @@
-from os import path
-import logging
 from tkinter import *
-from tkinter import scrolledtext, filedialog, messagebox, filedialog
+from tkinter import scrolledtext, messagebox, filedialog, ttk
 from tkinter.ttk import *
-from extractMP4 import downloadMP4
-from extractMP3 import downloadMP3
-window = Tk()
-
-window.title("YouTube Downloader")
-window.geometry("500x500")
-window.resizable(width=False, height=False)
+from extractMP4 import download_mp4
+from extractMP3 import download_mp3
 
 
-info_text = Label(window, text="To use, please click on button to download Youtube Videos:").grid(columnspan=2, sticky=W, padx=5)
-Label(window, text="Enter link: ").grid(row=1, column=0, sticky=W,padx=5)
+class Gui(Tk):
 
-url_entry = Entry(window)
-url_entry.focus()
-url_entry.grid(row=1, column=0, sticky=E)
+    def __init__(self):
+        super().__init__()
 
-def clicked():
-    if url_entry.get() == "":
-        messagebox.showerror("Error", "No link was given. Please input a link for video to be extracted :)")
-    elif video_music_selector.get() == "Select file format":
-        messagebox.showerror("Error", "Please select which file format if you like to have your file saved as :)")
-    else:
-        dirname = filedialog.askdirectory(initialdir='/home/')
-        if video_music_selector.get() == "MP4":  #extract MP4
-            if sub_state.get() == 1:
-                subtitles = True
+        self.title("YouTube Downloader")
+        self.geometry("350x175")
+        self.resizable(width=False, height=False)
+
+        info_text = Label(self, text="To use, please click button to download Youtube Videos:", font=("Helvetica", 10)).grid(columnspan=2,
+            padx=5)
+        Label(self, text="Enter link: ").grid(row=1, column=0, sticky=W, padx=5)
+
+        url_entry = Entry(self)
+        url_entry.focus()
+        url_entry.grid(row=1, column=0, sticky=E)
+
+        # combobox codes
+        video_music_selector = Combobox(self)
+        video_music_selector['values'] = ("Select file format", "MP4", "MP3")
+        video_music_selector.current(0)  # set the selected items
+        video_music_selector.grid(column=0, row=3, sticky=W, padx=8, pady=5)
+
+        sub_state = IntVar()
+        sub_state.set(1)  # set check state
+        sub = Checkbutton(self, text='Subtitles', var=sub_state)
+        sub.grid(column=1, row=3, sticky=W)
+
+        download_notify = Label(self, text="Downloading....")
+
+        def clicked():
+            if url_entry.get() == "":
+                messagebox.showerror("Error", "No link was given. Please input a link for video to be extracted :)")
+
+            elif video_music_selector.get() == "Select file format":
+                messagebox.showerror("Error",
+                                     "Please select which file format if you like to have your file saved as :)")
+
             else:
-                subtitles = False
-            downloadMP4(dirname, url_entry.get(), subtitles)
-            downloadmore()
-        elif video_music_selector.get() == "MP3":  #extract MP3
-            downloadMP3(dirname, url_entry.get())
-            downloadmore()
+                dirname = filedialog.askdirectory(title='Choose A Save Location', initialdir='/home/')
+                download_notify.grid(column=0, row=5, sticky=W, padx=8)
 
-def entry_checker():
-    if url_entry.get() == "":
-        messagebox.showerror("Error", "No link was given. Please input a link for video to be extracted :)")
-    elif video_music_selector.get() == "Select file format":
-        messagebox.showerror("Error", "Please select which file format if you like to have your file saved as :)")
+                if video_music_selector.get() == "MP4":  # extract MP4
+                    if sub_state.get() == 1:
+                        subtitles = True
+                    else:
+                        subtitles = False
+                    download_mp4(dirname, url_entry.get(), subtitles)
+                    download_notify.configure(text="Downloaded!")
+                    download_more()
 
-def downloadmore():
-    if messagebox.askyesno('Download Completed', 'Would you like to download another video?'):
-        url_entry.delete()
-    else:
-        window.destroy()
-#combobox codes
-video_music_selector = Combobox(window)
-video_music_selector['values'] = ("Select file format", "MP4", "MP3")
-video_music_selector.current(0) #set the selected items
-video_music_selector.grid(column=0, row=3, sticky=W, padx=8, pady=5)
+                elif video_music_selector.get() == "MP3":  # extract MP3
+                    download_mp3(dirname, url_entry.get())
+                    download_notify.configure(text="Downloaded!")
+                    download_more()
 
+        def download_more():  # prompts user if they will want to download more videos
+            if messagebox.askyesno('Download Completed', 'Would you like to download another video?'):
+                url_length = len(url_entry.get())
+                print(url_length)
+                url_entry.delete(first=0, last=url_length)
+                download_notify.grid_forget()
+            else:
+                self.destroy()
 
-sub_state = IntVar()
-sub_state.set(1) #set check state
-sub = Checkbutton(window, text='Subtitles', var=sub_state)
-sub.grid(column=1, row=3, sticky=W)
-
-
-btn = Button(window, text='Download!', command=clicked)
-btn.grid(column=0,row=4, sticky=W, padx=8)
+        btn = Button(self, text='Download!', command=clicked)
+        btn.grid(column=0, row=4, sticky=W, padx=8)
 
 
 
-window.mainloop()
+if __name__ == '__main__':
+    app = Gui()
+    app.mainloop()
